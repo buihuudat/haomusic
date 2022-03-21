@@ -6,5 +6,5 @@ public/*
 !public/fonts
 !public/svg
 !public/images
-.env
+
 .gitlab-ci.yml
