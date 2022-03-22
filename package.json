@@ -89,6 +89,7 @@
     "redux-thunk": "^2.2.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
+    "sweetalert2": "^11.4.6",
     "validator": "^8.0.0"
   }
 }

@@ -11,6 +11,7 @@ class SignUpPage extends React.Component {
   }
 
   state = {
+    leave: false,
     animate: false,
     fullname: '',
     email: '',

@@ -6,17 +6,9 @@ const signupValidator = require('../../../shared/validations/signup');
 
 const router = express.Router();
 
-router.put('/save', (req, res, next) => {
-  const { fullname, email, username, password, phone, passwordConfirmation } = req.body;
-  const { isValid, errors } = signupValidator(req.body);
-
-  if (!isValid) {
-    return res.status(400).json({ error: true, errors });
-  }
-
-  if (password !== passwordConfirmation) {
-    return res.status(400).json({ error: true, errors: { password: 'Passwords do not match' } });
-  }
+router.put('/:username/save', (req, res, next) => {
+  const { fullname, email, password, phone } = req.body;
+  console.log(req.body);
 
   co(function* () {
     const existingEmail = yield User.findOne({ email });
@@ -25,17 +17,16 @@ router.put('/save', (req, res, next) => {
       return res.status(400).json({ error: true, errors: { email: 'Email already exists' } });
     }
 
-
-    const user = new User({ fullname, email, username, password, phone });
-    return user.save();
+    // update user
+    const user = User.findOneAndUpdate({ username: req.body.username }, {
+      fullname,
+      email,
+      password,
+      phone,
+    }, { new: true });
+    return user;
   })
-  .then(user => res.json({
-    fullname: user.fullname,
-    avatar: user.avatar || 'https://i.pinimg.com/originals/9d/05/86/9d0586ac63b7e7a30a6ffafcbb4e0a93.gif',
-    username: user.username,
-    password: user.password,
-    access_token: user.access_token,
-  }))
+  .then(user => res.send(user))
   .catch(err => next(err));
 });
 
@@ -67,6 +58,9 @@ router.post('/signup', (req, res, next) => {
     fullname: user.fullname,
     avatar: user.avatar || 'https://i.pinimg.com/originals/9d/05/86/9d0586ac63b7e7a30a6ffafcbb4e0a93.gif',
     username: user.username,
+    email: user.email,
+    primary: user.primary,
+    phone: user.phone,
     password: user.password,
     access_token: user.access_token,
   }))

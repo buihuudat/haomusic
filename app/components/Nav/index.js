@@ -185,6 +185,21 @@ class Nav extends React.Component {
                       <span>My Playlist</span>
                     </IndexLink>
                   </li>
+                  {user.primary === '0' ? (
+                    <li className='li-admin' style={{
+                      border: '1px solid #00b2b3',
+                      margin: '1rem 0',
+                      borderRadius: '10px',
+                    }}>
+                      <IndexLink
+                        to={'/admin-page'}
+                        activeClassName='nav-menu-link-active'
+                      >
+                        <i style={{color: 'red'}} className="ion-android-star"></i>
+                        <span>ADMIN Page</span>
+                      </IndexLink>
+                    </li>  
+                  ) : null}
                 </ul>
 
                 {user.primary === '2' ? (

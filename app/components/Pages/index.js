@@ -9,6 +9,7 @@ import LogInPage from './Auth/login';
 import SignUpPage from './Auth/signup';
 import UserPage from './User';
 import UserPlaylist from './userPlaylist';
+import AdminPage from './Admin';
 
 export {
   AlbumGenrePage,
@@ -22,4 +23,5 @@ export {
   UserPage,
   SongHeader,
   UserPlaylist,
+  AdminPage,
 };

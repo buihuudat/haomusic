@@ -14,6 +14,7 @@ import SignUpPage from './SignUpPage';
 import UserPage from './UserPageContainer';
 import UserPlaylist from './UserPlaylist';
 import Modal from './Modal';
+import AdminPage from './AdminPage';
 
 export {
   Player,
@@ -31,5 +32,6 @@ export {
   SignUpPage,
   UserPage,
   UserPlaylist,
+  AdminPage,
   Modal,
 };

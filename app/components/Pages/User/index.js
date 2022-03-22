@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 import './index.sass';
 
@@ -30,8 +31,8 @@ class UserPage extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     const { fullname, email, username, password, passwordConfirmation, phone } = this.state;
-    console.log(this.state)
-    axios.put(`/api/user/${this.props.user.username}`, {
+    // update user data
+    axios.put(`/api/user/${this.props.user.username}/save`, {
       fullname,
       email,
       username,
@@ -39,15 +40,25 @@ class UserPage extends React.Component {
       passwordConfirmation,
       phone,
     })
-    .then(res => {
-      console.log(res)
-    }
-    )
-    .catch(err => {
-      console.log(err)
-    }
-    )
+
+    .then(({ data: user }) => {
+      localStorage.setItem('user', JSON.stringify(user));
+      Swal.fire({
+        type: 'success',
+        title: 'Success',
+        text: 'Your profile has been updated',
+      });
+    })
+    .catch(err => console.log(err));
     
+    Swal.fire({
+      title: 'Success!!!',
+      text: 'Your account has been updated',
+      icon: 'success',
+      confirmButtonText: 'Cool',
+      background: '#252c48',
+      color: '#fff',
+    });
   }
 
 
@@ -106,11 +117,11 @@ class UserPage extends React.Component {
                     <label htmlFor="password">Password</label>
                     <input
                       onChange={e => this.handleOnChange(e)}
-                      onClick={e => (e.target.type = 'text') && (e.target.value = '')}
+                      onFocus={e => (e.target.type = !e.target.type) && (e.target.value = '')}
                       disabled={showInput}
                       name="password"
                       value={ this.state.password || user.password}
-                      type="password"
+                      type={showInput ? 'password' : 'text'}
                       className="form-control"
                       id="password"/>
                   </div>
@@ -120,19 +131,19 @@ class UserPage extends React.Component {
                       <label htmlFor="confirmPassword">Confirm Password</label>
                       <input
                         onChange={e => this.handleOnChange(e)}
-                        onClick={e => (e.target.type = 'text') && (e.target.value = '')}
+                        onFocus={e => (e.target.type = !e.target.type) && (e.target.value = '')}
                         disabled={showInput}
                         name="passwordConfirmation"
                         value={ this.state.passwordConfirmation || user.password}
-                        type="password"
+                        type={showInput ? 'password' : 'text'}
                         className="form-control"
                         id="confirmPassword"/>
                     </div>) : null
                   }
                   <input
                     onClick={() => this.handleOnClick()}
-                    // type={`${showInput ? 'button' : 'submit'}`}
-                    type='submit'
+                    type={`${!showInput ? 'button' : 'submit'}`}
+                    // type='submit'
                     className='up-form-submit'
                     value={`${showInput ? 'Edit' : 'Save'}`}
                   />

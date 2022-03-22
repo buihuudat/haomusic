@@ -41,10 +41,6 @@ module.exports = function validateInput(data) {
     errors.passwordConfirmation = 'Passwords must match';
   }
 
-  if (Validator.isEmpty(data.phone || '')) {
-    errors.phone = 'Phone is required';
-  }
-
   return {
     errors,
     isValid: isEmpty(errors),

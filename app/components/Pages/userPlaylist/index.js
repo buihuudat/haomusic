@@ -5,7 +5,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { getSongUrl, changeAlias, isEmpty } from '../../../utils/func';
 import { createPlaylist, deleteSong, deletePlaylist } from '../../../actions/user_playlist';
 import { playUserPlaylist } from '../../../actions/queue';
-import { fetchSong, fetchSuggestedSongs } from '../../../actions/song';
+import { fetchSong } from '../../../actions/song';
 import LinksByComma from '../../LinksByComma';
 
 import './index.sass';
@@ -46,15 +46,15 @@ class UserPlaylist extends React.Component {
   render() {
     const { playlists } = this.props;
 
-    const fileSelected = (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.props.dispatch(fetchSong(e.target.result));
-      };
-      reader.readAsDataURL(file);
-      console.log(e);
-    }
+    // const fileSelected = (e) => {
+    //   const file = e.target.files[0];
+    //   const reader = new FileReader();
+    //   reader.onload = (e) => {
+    //     this.props.dispatch(fetchSong(e.target.result));
+    //   };
+    //   reader.readAsDataURL(file);
+    //   console.log(e);
+    // }
 
     return (
       <div className="user-page-playlist">
@@ -83,8 +83,6 @@ UserPlaylist.propTypes = {
   dispatch: PropTypes.func.isRequired,
   songData: PropTypes.object.isRequired,
 };
-
-console.log(UserPlaylist.propTypes.playlist)
 
 class Playlist extends React.Component {
   state = {
