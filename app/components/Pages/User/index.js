@@ -1,28 +1,59 @@
 import React from 'react';
+import axios from 'axios';
+
 import './index.sass';
 
 class UserPage extends React.Component {
   state = {
     showInput: true,
     value: '',
-  }
 
+    fullname: this.props.user.fullname,
+    email: this.props.user.email,
+    username: this.props.user.username,
+    password: this.props.user.password,
+    passwordConfirmation: this.props.user.password,
+    phone: this.props.user.phone,
+  };
+
+  
   handleOnClick() {
     this.setState({
       showInput: !this.state.showInput,
     });
   }
-
-  handleOnChange(event) {
-    this.setState({
-      value: event.target.value,
-    });
+  
+  handleOnChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
+  
+  onSubmit(e) {
+    e.preventDefault();
+    const { fullname, email, username, password, passwordConfirmation, phone } = this.state;
+    console.log(this.state)
+    axios.put(`/api/user/${this.props.user.username}`, {
+      fullname,
+      email,
+      username,
+      password,
+      passwordConfirmation,
+      phone,
+    })
+    .then(res => {
+      console.log(res)
+    }
+    )
+    .catch(err => {
+      console.log(err)
+    }
+    )
+    
+  }
+
 
   render() {
     const { user } = this.props;
     const showInput = this.state.showInput;
-    const value = this.state.value;
     return (
       <div className="user-page">
         <div className='user-page-center'>
@@ -37,13 +68,14 @@ class UserPage extends React.Component {
                 </div>
               </div>
               <div className='up-content-right'>
-                <form>
+                <form onSubmit={this.onSubmit.bind(this)}>
                   <div className='up-form-label'>
                     <label htmlFor="name">Name</label>
                     <input
                       onChange={e => this.handleOnChange(e)}
                       disabled={showInput}
-                      value={ value.length > 0 ? this.handleOnChange.value : user.fullname}
+                      name="fullname"
+                      value={ this.state.fullname || user.fullname}
                       type="text"
                       className="form-control"
                       id="name"/>
@@ -53,7 +85,8 @@ class UserPage extends React.Component {
                     <input
                       onChange={e => this.handleOnChange(e)}
                       disabled={showInput}
-                      value={ value.length > 0 ? this.handleOnChange.value : user.email}
+                      name="email"
+                      value={ this.state.email || user.email}
                       type="email"
                       className="form-control"
                       id="email"/>
@@ -63,7 +96,8 @@ class UserPage extends React.Component {
                     <input
                       onChange={e => this.handleOnChange(e)}
                       disabled={showInput}
-                      value={ value.length > 0 ? this.handleOnChange.value : user.phone}
+                      name="phone"
+                      value={ this.state.phone || user.phone}
                       type="text"
                       className="form-control"
                       id="phone"/>
@@ -74,21 +108,34 @@ class UserPage extends React.Component {
                       onChange={e => this.handleOnChange(e)}
                       onClick={e => (e.target.type = 'text') && (e.target.value = '')}
                       disabled={showInput}
-                      value={ value.length > 0 ? this.handleOnChange.value : user.password}
+                      name="password"
+                      value={ this.state.password || user.password}
                       type="password"
                       className="form-control"
                       id="password"/>
                   </div>
-                  <div className='form-btns'>
-                    <input
-                      onChange={e => this.handleOnChange(e)}
-                      onClick={() => this.handleOnClick()}
-                      type={'button'}
-                      className='up-form-submit'
-                      value={'Edit'}
-                    ></input>
-                    <input type={'submit'} className='up-form-submit' value='Save'/>
-                  </div>
+                  {
+                    !showInput ?
+                    (<div className='up-form-label'>
+                      <label htmlFor="confirmPassword">Confirm Password</label>
+                      <input
+                        onChange={e => this.handleOnChange(e)}
+                        onClick={e => (e.target.type = 'text') && (e.target.value = '')}
+                        disabled={showInput}
+                        name="passwordConfirmation"
+                        value={ this.state.passwordConfirmation || user.password}
+                        type="password"
+                        className="form-control"
+                        id="confirmPassword"/>
+                    </div>) : null
+                  }
+                  <input
+                    onClick={() => this.handleOnClick()}
+                    // type={`${showInput ? 'button' : 'submit'}`}
+                    type='submit'
+                    className='up-form-submit'
+                    value={`${showInput ? 'Edit' : 'Save'}`}
+                  />
                 </form>
               </div>
             </div>

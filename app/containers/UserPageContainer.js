@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Pages } from '../components';
 import { logout } from '../actions/auth';
 import { isAuthenticated } from '../HOC';
@@ -15,11 +14,11 @@ class UserPageContainer extends Component {
     }
   }
 
-
   render() {
     return (
       <Pages.UserPage
         user={this.props.user}
+        dispatch={this.props.dispatch}
       />
     );
   }

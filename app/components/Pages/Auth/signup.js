@@ -140,5 +140,3 @@ SignUpPage.propTypes = {
 };
 
 export default SignUpPage;
-
-

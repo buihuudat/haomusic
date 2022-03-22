@@ -44,12 +44,9 @@ export function user(userCredentials) {
     axios.post(`${USER_ENDPOINT}/user`, userCredentials)
     .then(({ data: user }) => {
       localStorage.setItem('user', JSON.stringify(user));
-
-      dispatch({ type: types.SIGN_UP_SUCCESS, user });
-      dispatch({ type: types.FINISH_PROCESSING });
     })
     .catch(err => {
-      dispatch({ type: types.SIGN_UP_FAILURE, errors: err.response.data.errors });
+      dispatch({ errors: err.response.data.errors });
       dispatch({ type: types.FINISH_PROCESSING });
     });
   };

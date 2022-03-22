@@ -9,13 +9,14 @@
   max-height: 500px
   overflow-y: scroll
   z-index: 100
-  background: #fff
+  backdrop-filter: blur(40px)
   box-shadow: 0 0 8px rgba(0,0,0,.3)
   > ul
     padding: 10px 20px
     padding-top: 0
   li
-
+    &:hover
+      box-shadow: 0 0 8px rgba(0,0,0,.3)
 
 .top-result
   .search-li-detail

@@ -43,6 +43,6 @@ process.on('uncaughtException', (err) => {
   error(`crashed!!! - ${err.stack || err}`);
 });
 
-const PORT = Process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => console.log(`server is listening on port ${PORT}`));

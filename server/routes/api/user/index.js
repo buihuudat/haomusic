@@ -6,6 +6,39 @@ const signupValidator = require('../../../shared/validations/signup');
 
 const router = express.Router();
 
+router.put('/save', (req, res, next) => {
+  const { fullname, email, username, password, phone, passwordConfirmation } = req.body;
+  const { isValid, errors } = signupValidator(req.body);
+
+  if (!isValid) {
+    return res.status(400).json({ error: true, errors });
+  }
+
+  if (password !== passwordConfirmation) {
+    return res.status(400).json({ error: true, errors: { password: 'Passwords do not match' } });
+  }
+
+  co(function* () {
+    const existingEmail = yield User.findOne({ email });
+    
+    if (existingEmail) {
+      return res.status(400).json({ error: true, errors: { email: 'Email already exists' } });
+    }
+
+
+    const user = new User({ fullname, email, username, password, phone });
+    return user.save();
+  })
+  .then(user => res.json({
+    fullname: user.fullname,
+    avatar: user.avatar || 'https://i.pinimg.com/originals/9d/05/86/9d0586ac63b7e7a30a6ffafcbb4e0a93.gif',
+    username: user.username,
+    password: user.password,
+    access_token: user.access_token,
+  }))
+  .catch(err => next(err));
+});
+
 router.post('/signup', (req, res, next) => {
   const { fullname, email, username, password, phone } = req.body;
   const { isValid, errors } = signupValidator(req.body);
