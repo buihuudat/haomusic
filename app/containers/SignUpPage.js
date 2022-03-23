@@ -10,7 +10,6 @@ class SignUpPage extends React.Component {
     if (this.props.slideInRight) {
       this.props.dispatch(resetSlideInRight());
     }
-    console.log(this.props);
 
     // clear errors in the auth state from the previous authentication attempt
     if (!isEmpty(this.props.auth.errors)) {

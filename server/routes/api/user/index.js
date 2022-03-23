@@ -3,30 +3,37 @@ const User = require('../../../models/user');
 const co = require('co');
 const loginValidator = require('../../../shared/validations/login');
 const signupValidator = require('../../../shared/validations/signup');
+const bcrypt = require('bcrypt-nodejs');
+
 
 const router = express.Router();
 
-router.put('/:username/save', (req, res, next) => {
-  const { fullname, email, password, phone } = req.body;
-  console.log(req.body);
+router.put('/:username/update', (req, res, next) => {
+  const { fullname, email, password, phone, primary } = req.body;
+  // hash password
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(password, salt);
 
   co(function* () {
     const existingEmail = yield User.findOne({ email });
-    
-    if (existingEmail) {
-      return res.status(400).json({ error: true, errors: { email: 'Email already exists' } });
+
+    if (existingEmail & existingEmail !== email) {
+      const error = new Error('Email already exists');
+      error.status = 400;
+      throw error;
     }
 
     // update user
-    const user = User.findOneAndUpdate({ username: req.body.username }, {
+    const user = User.findOneAndUpdate({ username: req.params.username }, {
       fullname,
       email,
-      password,
+      password: hash,
       phone,
+      primary,
     }, { new: true });
     return user;
   })
-  .then(user => res.send(user))
+  .then(user => res.json(user))
   .catch(err => next(err));
 });
 
@@ -99,6 +106,26 @@ router.post('/login', (req, res, next) => {
     password: user.password,
     access_token: user.access_token,
   }))
+  .catch(err => next(err));
+});
+
+router.post('/all', (req, res, next) => {
+  co(function* () {
+    const users = yield User.find();
+    return users;
+  })
+  .then(user => res.json(user
+  ))
+  .catch(err => next(err));
+});
+
+// delete user
+router.delete('/:username/delete', (req, res, next) => {
+  co(function* () {
+    const user = yield User.findOneAndRemove({ username: req.params.username });
+    return user;
+  })
+  .then(user => res.json(user))
   .catch(err => next(err));
 });
 

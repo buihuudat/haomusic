@@ -31,34 +31,63 @@ class UserPage extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     const { fullname, email, username, password, passwordConfirmation, phone } = this.state;
-    // update user data
-    axios.put(`/api/user/${this.props.user.username}/save`, {
-      fullname,
-      email,
-      username,
-      password,
-      passwordConfirmation,
-      phone,
-    })
-
-    .then(({ data: user }) => {
-      localStorage.setItem('user', JSON.stringify(user));
+    if (password !== passwordConfirmation) {
       Swal.fire({
-        type: 'success',
-        title: 'Success',
-        text: 'Your profile has been updated',
+        type: 'error',
+        title: 'Oops...',
+        text: 'Password and Confirm Password must be the same',
+        background: '#252c48',
+        color: '#fff',
       });
-    })
-    .catch(err => console.log(err));
+    } else if (password === '') {
+      Swal.fire({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Password is required',
+        background: '#252c48',
+        color: '#fff',
+      });
+    } else if (password.length < 6) {
+      Swal.fire({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Password must be at least 6 characters',
+        background: '#252c48',
+        color: '#fff',
+      });
+    } else {
+      // update user data
+      axios.put(`/api/user/${this.props.user.username}/update`, {
+        fullname,
+        email,
+        username,
+        password,
+        passwordConfirmation,
+        phone,
+      })
     
-    Swal.fire({
-      title: 'Success!!!',
-      text: 'Your account has been updated',
-      icon: 'success',
-      confirmButtonText: 'Cool',
-      background: '#252c48',
-      color: '#fff',
-    });
+      .then(({ data: user }) => {
+        localStorage.setItem('user', JSON.stringify(user));
+        Swal.fire({
+          type: 'Update Successfully !!!',
+          icon: 'success',
+          background: '#252c48',
+          color: '#fff',
+          title: 'Success',
+          text: 'Your profile has been updated',
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: 'Update Failed!!!!',
+          text: `${error}`,
+          icon: 'error',
+          confirmButtonText: 'Try again',
+          background: '#252c48',
+          color: '#fff',
+        });
+      });
+    }
   }
 
 
@@ -117,11 +146,14 @@ class UserPage extends React.Component {
                     <label htmlFor="password">Password</label>
                     <input
                       onChange={e => this.handleOnChange(e)}
-                      onFocus={e => (e.target.type = !e.target.type) && (e.target.value = '')}
+                      onClick={e => {
+                        (e.target.type = !e.target.type);
+                        (e.target.value = '');
+                      }}
                       disabled={showInput}
                       name="password"
                       value={ this.state.password || user.password}
-                      type={showInput ? 'password' : 'text'}
+                      type='password'
                       className="form-control"
                       id="password"/>
                   </div>
@@ -131,11 +163,14 @@ class UserPage extends React.Component {
                       <label htmlFor="confirmPassword">Confirm Password</label>
                       <input
                         onChange={e => this.handleOnChange(e)}
-                        onFocus={e => (e.target.type = !e.target.type) && (e.target.value = '')}
                         disabled={showInput}
                         name="passwordConfirmation"
                         value={ this.state.passwordConfirmation || user.password}
-                        type={showInput ? 'password' : 'text'}
+                        onClick={e => {
+                          (e.target.type = !e.target.type);
+                          (e.target.value = '');
+                        }}
+                        type='password'
                         className="form-control"
                         id="confirmPassword"/>
                     </div>) : null
@@ -143,7 +178,6 @@ class UserPage extends React.Component {
                   <input
                     onClick={() => this.handleOnClick()}
                     type={`${!showInput ? 'button' : 'submit'}`}
-                    // type='submit'
                     className='up-form-submit'
                     value={`${showInput ? 'Edit' : 'Save'}`}
                   />

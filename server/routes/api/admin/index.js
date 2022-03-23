@@ -7,7 +7,7 @@ router.get('/admin-page', async (req, res) => {
 
   const users = await User.find();
 
-  res.send(users);
+  res.json(users);
 });
 
 module.exports = router;

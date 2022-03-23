@@ -1,6 +1,5 @@
 import React from 'react';
 import { Pages } from '../components';
-import { logout } from '../actions/auth';
 import { isAuthenticated } from '../HOC';
 import Swal from 'sweetalert2';
 
