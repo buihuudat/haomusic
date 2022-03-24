@@ -78,7 +78,7 @@ export function download({ songName, id, filename }) {
     dispatch(startDownloading(id)); // dispatch the action for showing loading progress bar
     axios.get(`${MEDIA_ENDPOINT}/download?id=${id}`)
          .then(response =>{
-            const url = response.data["128"]?response.data["128"]: null;
+            const url = response.data["128"] ? response.data["128"] : null;
             if(!url){
               alert("Cannot download this song, you must Vip user");
               return;

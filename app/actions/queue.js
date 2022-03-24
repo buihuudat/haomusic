@@ -27,7 +27,7 @@ export function removeSongFromQueue(id) {
     dispatch({
       type: types.REMOVE_SONG_FROM_QUEUE,
       queue: newQueue,
-      ids: queueIds
+      ids: queueIds,
     });
   };
 }
@@ -35,7 +35,7 @@ export function removeSongFromQueue(id) {
 export function togglePushRoute(bool) {
   return {
     type: types.TOGGLE_PUSH_ROUTE,
-    flag: bool
+    flag: bool,
   };
 }
 

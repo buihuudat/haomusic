@@ -78,6 +78,7 @@ class Nav extends React.Component {
             </div>
             {this.state.searchResult.msg === 'Success' && (
               <SearchMenu
+                primary={user.primary}
                 searchResult={this.state.searchResult}
                 clearSearchResult={this.clearSearchResult.bind(this)}
               />

@@ -1,13 +1,15 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router";
+import { user } from "../../actions/auth";
 import { haveDropDown } from "../../HOC";
 import LinksByComma from "../LinksByComma";
 import WithBackgroundImage from "../WithBgImg";
 import "./index.sass";
 
-const Chart = props => {
-  const { chart } = props;
+const Chart = (props) => {
+  const { chart, user } = props;
+  console.log(user);
   if (!chart.items) {
     return null;
   }
@@ -19,10 +21,10 @@ const Chart = props => {
         {chart.items.map((item, index) => {
           if (index === 0) {
             return (
-              <ChartFirstItem key={`chart-${item.encodeId}`} id={item.encodeId} name={item.title} {...item} {...props} />
+              <ChartFirstItem key={`chart-${item.encodeId}`} id={item.encodeId} name={item.title} user={user} {...item} {...props} />
             );
           }
-          return <ChartItem key={`chart-${item.encodeId}`} id={item.encodeId} name={item.title} {...item} {...props} />;
+          return <ChartItem key={`chart-${item.encodeId}`} id={item.encodeId} name={item.title} user={user} {...item} {...props} />;
         })}
       </ul>
     </div>
@@ -43,16 +45,18 @@ const ChartFirstItem = ({
   thumbnail,
   renderDropDown,
   toggleTrackDropDown,
-  streamingStatus
+  streamingStatus,
+  user,
 }) => (
   <li className="chart-item">
+    {console.log(user)},
     <div className="chart-item-order order-first chart-item-thumb">
       <img src={thumbnail} />
     </div>
     <div className="chart-item-detail detail-first">
       <div className="chart-item-detail-left">
         <div className="chart-item-order">
-          {streamingStatus == 2 ? (
+          {user.primary === streamingStatus ? (
             <span className="vip-required">Vip</span>
           ) : null}
         </div>
@@ -60,7 +64,7 @@ const ChartFirstItem = ({
           <Link
             to={`/song/${alias}/${id}`}
             onClick={e => {
-              if (streamingStatus == 2) {
+              if (user.primary === streamingStatus) {
                 e.preventDefault();
                 alert("only vip users can see this");
               }
@@ -97,7 +101,7 @@ const ChartFirstItem = ({
 );
 
 ChartFirstItem.propTypes = {
-  renderDropDown: PropTypes.func.isRequired
+  renderDropDown: PropTypes.func.isRequired,
 };
 
 const ChartItem = ({
@@ -110,7 +114,8 @@ const ChartItem = ({
   artists,
   renderDropDown,
   toggleTrackDropDown,
-  streamingStatus
+  streamingStatus,
+  user,
 }) => (
   <li className="chart-item">
     <div className="chart-item-thumb">
@@ -119,7 +124,7 @@ const ChartItem = ({
     <div className="chart-item-detail">
       <div className="chart-item-detail-left">
         <div className="chart-item-order">
-          {streamingStatus == 2 ? (
+          {user.primary === streamingStatus ? (
             <span className="vip-required">Vip</span>
           ) : null}
         </div>
@@ -128,7 +133,7 @@ const ChartItem = ({
             <Link
               to={`/song/${alias}/${id}`}
               onClick={e => {
-                if (streamingStatus == 2) {
+                if (user.primary === streamingStatus) {
                   e.preventDefault();
                   alert("only vip users can see this");
                 }
@@ -167,7 +172,7 @@ const ChartItem = ({
 
 ChartItem.propTypes = {
   renderDropDown: PropTypes.func.isRequired,
-  toggleTrackDropDown: PropTypes.func.isRequired
+  toggleTrackDropDown: PropTypes.func.isRequired,
 };
 
 export default haveDropDown(Chart);

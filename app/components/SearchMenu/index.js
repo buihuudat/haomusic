@@ -5,6 +5,7 @@ import TopResult from './TopResult';
 import SongResult from './SongResult';
 import AlbumResult from './AlbumResult';
 import ArtistResult from './ArtistResult';
+import { IsAuthenticated } from '../../HOC';
 import './index.sass';
 
 class SearchMenu extends Component {
@@ -13,14 +14,12 @@ class SearchMenu extends Component {
   }
 
   render() {
-    const {data} = this.props.searchResult;
+    const { data } = this.props.searchResult;
     if (!data) return null;
-    console.log("search menu");
-    console.log(data);
     return (
       <ul className='search-menu'>
         { data.top && <TopResult {...data.top} clearSearchResult={this.props.clearSearchResult}/> }
-        <SongResult songs={data.songs || []} clearSearchResult={this.props.clearSearchResult} />
+        <SongResult songs={data.songs || []} primary={this.props.primary} clearSearchResult={this.props.clearSearchResult} />
         <ArtistResult artists={data.artists || []} clearSearchResult={this.props.clearSearchResult} />
         <AlbumResult albums={data.playlists || []} clearSearchResult={this.props.clearSearchResult} />
       </ul>
@@ -30,7 +29,7 @@ class SearchMenu extends Component {
 
 SearchMenu.propTypes = {
   searchResult: PropTypes.object.isRequired,
-  clearSearchResult: PropTypes.func.isRequired
+  clearSearchResult: PropTypes.func.isRequired,
 };
 
 export default onClickOutside(SearchMenu);

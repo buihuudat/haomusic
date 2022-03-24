@@ -4,6 +4,7 @@ import { HomePage } from '../components';
 import { changeActiveChart } from '../actions/chart';
 import { fetchTracks } from '../actions/home';
 import { download } from '../actions/song';
+import { isAuthenticated } from '../HOC';
 
 class HomePageContainer extends Component {
   render() {
@@ -34,5 +35,5 @@ export default connect(mapStateToProps,
     changeActiveChart,
     download,
     fetchTracks,
-  })(HomePageContainer);
+  })(isAuthenticated(HomePageContainer));
 

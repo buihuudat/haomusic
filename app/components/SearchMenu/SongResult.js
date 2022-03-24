@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 
-function SongResult({ songs, clearSearchResult }) {
+function SongResult({ songs, primary, clearSearchResult }) {
   return (
     <ul className="song-result">
       <div className="search-li-title">Songs</div>
@@ -14,11 +14,10 @@ function SongResult({ songs, clearSearchResult }) {
                 <Link
                   to={`/song/${song.alias}/${song.encodeId}`}
                   onClick={e => {
-                    if (song.streaming_status == 2) {
+                    if (song.streamingStatus === primary) {
                       e.preventDefault();
                       alert("only vip users can see this");
                     }
-
                     clearSearchResult();
                   }}
                 >
@@ -27,7 +26,7 @@ function SongResult({ songs, clearSearchResult }) {
               </div>
               <div className="search-li-artist">
                 {song.artistsNames}
-                {song.streamingStatus == 2 ? (
+                {song.streamingStatus == primary ? (
                   <span className="vip-required">Vip</span>
                 ) : null}
               </div>

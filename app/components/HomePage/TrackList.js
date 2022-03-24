@@ -16,7 +16,7 @@ class TrackList extends React.Component {
   }
 
   render() {
-    const { isFading } = this.props;
+    const { isFading, user } = this.props;
     return (
       <div className='hp-track-list-wrapper'>
         <ul className={`hp-track-list ${isFading ? 'isFading' : ''}`}>
@@ -24,6 +24,7 @@ class TrackList extends React.Component {
             <Track
               key={track.encodeId}
               order={index + 1}
+              user={user.primary}
               {...track}
               {...this.props}
               download={this.downloadSong.bind(this)}

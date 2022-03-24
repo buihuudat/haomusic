@@ -72,7 +72,7 @@ const HomePage = (props) => (
       <TrackList {...props} />
       <div className='chart-wrapper'>
         <ChartPanel changeActiveChart={props.changeActiveChart} />
-        <Chart chart={props.chart} />
+        <Chart chart={props.chart} user={props} />
       </div>
     </div>
   </div>

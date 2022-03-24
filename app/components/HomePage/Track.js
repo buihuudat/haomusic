@@ -37,11 +37,12 @@ const Track = props => {
     title,
     artists,
     downloadProgress,
-    streamingStatus
+    streamingStatus,
+    user,
   } = props;
   const dataArtists = artists ? artists : [];
-  const id = encodeId
-  const name = title
+  const id = encodeId;
+  const name = title;
   return (
     <li>
       {props.renderDropDown("Track", { id, name, thumbnail, artists })}
@@ -52,7 +53,7 @@ const Track = props => {
           <Link
             to={`song/${alias}/${id}`}
             onClick={e => {
-              if (streaming_status == 2) {
+              if (streamingStatus === user) {
                 e.preventDefault();
                 alert("only vip users can see this");
               }
@@ -60,7 +61,7 @@ const Track = props => {
           >
             {title}
           </Link>
-          {streamingStatus == 2 ? (
+          {streamingStatus === user ? (
             <span className="vip-required">Vip</span>
           ) : null}
         </div>
