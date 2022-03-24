@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build",
   "scripts": {
     "start": "npm run build && npm run server",
     "server": "cross-env NODE_ENV=production node server",
