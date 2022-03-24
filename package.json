@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  
   "scripts": {
-    "start": "npm run build && npm run webpack:dev",
+    "start": "npm run build && npm run server",
     "server": "cross-env NODE_ENV=production node server",
     "dev:client": "npm run webpack:dev",
     "dev:server": "cross-env DEBUG=server:* npx nodemon ./server",
