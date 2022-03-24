@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "npm run build && npm run server",
+    "start": "npm run build && npm run webpack:dev",
     "server": "cross-env NODE_ENV=production node server",
     "dev:client": "npm run webpack:dev",
     "dev:server": "cross-env DEBUG=server:* npx nodemon ./server",
