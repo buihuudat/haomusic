@@ -20,9 +20,14 @@ module.exports = {
     hot: true,
     inline: true,
     historyApiFallback: true,
-    port: 8000,
+    port: 10000,
     proxy: {
-      '/api': 'http://localhost:3000',
+      // '/api': 'http://localhost:3000',
+      '/api': {
+        'target': 'https://haomusicdb.herokuapp.com/',
+        'secure': false,
+        'changeOrigin': true,
+      },
     },
   },
   resolve: {
