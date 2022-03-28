@@ -29,7 +29,6 @@ export function fetchDefaultAlbums() {
 
     axios.get(`${MEDIA_ENDPOINT}/albums/default`)
       .then(({ data }) => {
-        console.log(data);
         if (data) {
           dispatch({ type: types.FETCH_DEFAULT_ALBUMS, defaultAlbums: data });
 
@@ -52,9 +51,9 @@ export function fetchAlbums(genre, id, page) {
     axios.get(`${MEDIA_ENDPOINT}/albums?genre=${genre}&id=${id}${pageQuery}`)
       .then(({ data }) => {
         if (data.items && data.items.length) {
-          dispatch({ type: types.FETCH_ALBUMS, albums: data.items});
+          dispatch({ type: types.FETCH_ALBUMS, albums: data.items });
 
-          dispatch(setNumberOfPages(Math.round(data.total/20)));
+          dispatch(setNumberOfPages(Math.round(data.total / 20)));
           dispatch(finishLoading());
         }
       })
@@ -64,7 +63,8 @@ export function fetchAlbums(genre, id, page) {
 
 export function fetchAlbumPlaylist(title, id) {
   return dispatch => {
-    axios.get(`${MEDIA_ENDPOINT}/album_playlist?title=${title}&id=${id}`)
+    // axios.get(`${MEDIA_ENDPOINT}/album_playlist?title=${title}&id=${id}`)
+    axios.get(`${MEDIA_ENDPOINT}/playlist/${title}/${id}`)
       .then(({ data }) => {
         dispatch({ type: types.FETCH_ALBUM_PLAYLIST, playlist: data });
       })

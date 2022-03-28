@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import bcrypt from 'bcrypt-nodejs';
+
+import ChartAdmin from './chart';
 
 import './index.sass';
 
@@ -9,15 +12,14 @@ class AdminPage extends React.Component {
     user: {},
     show: false,
 
-    fullname: this.props.user.fullname,
-    email: this.props.user.email,
-    username: this.props.user.username,
-    password: this.props.user.password,
-    primary: this.props.user.primary,
-    phone: this.props.user.phone,
+    fullname: '',
+    email: '',
+    username: '',
+    password: '',
+    primary: '',
+    phone: '',
   }
   
-
   componentDidMount() {
     axios.post('/api/user/all')
     .then((response) => {
@@ -39,6 +41,7 @@ class AdminPage extends React.Component {
   }
 
   onSubmit(e) {
+    console.log(!this.state.password);
     e.preventDefault();
     // update user
     axios.put(`/api/user/${this.state.username}/update`, {
@@ -58,8 +61,7 @@ class AdminPage extends React.Component {
         color: '#fff',
         confirmButtonText: 'Nice😋!!',
       });
-      console.log(response);
-      window.location.reload();
+      // window.location.reload();
     })
     .catch((error) => {
       console.log(error);
@@ -78,10 +80,17 @@ class AdminPage extends React.Component {
     });
   }
 
-
   handleOnclickDel(fullname, username) {
-    // delete user
-    if (username) {
+    if (this.props.user.fullname === fullname) {
+      Swal.fire({
+        title: 'Oops!',
+        text: 'You cannot delete yourself',
+        icon: 'error',
+        background: '#252c48',
+        color: '#fff',
+        confirmButtonText: 'Ok',
+      });
+    } else if (username) {
       Swal.fire({
         title: 'Deleting user',
         text: `Are you sure you want to delete ${fullname}?`,
@@ -105,7 +114,6 @@ class AdminPage extends React.Component {
           }
         })
         .then((response) => {
-          console.log(response);
           Swal.fire({
             title: 'Deleted!',
             icon: 'success',
@@ -129,6 +137,9 @@ class AdminPage extends React.Component {
     const { user } = this.state;
     return (
       <div className='admin container'>
+        <div className='chart-admin'>
+          <ChartAdmin />
+        </div>
         <table className="admin-table table-hover">
           <thead>
             <tr>
@@ -138,8 +149,8 @@ class AdminPage extends React.Component {
               <th scope="col">Account</th>
               <th scope="col">Phone</th>
               <th scope="col">Primary</th>
-              <th scope='col'>Actions</th>
               <th scope='col'>Created</th>
+              <th scope='col'>Actions</th>
             </tr>
           </thead>
           <tbody className='tb-table'>

@@ -5,8 +5,8 @@ import LinksByComma from '../../LinksByComma';
 import './album_card.sass';
 
 const AlbumCard = (props) => {
-  let alias = props.link.split("/")[2];
-    return (
+  const alias = props.link.split('/')[2];
+  return (
     <div className="album-card">
       <Link to={`/album/playlist/${alias}/${props.encodeId}`}>
         <LazyloadImage className="album-image" src={props.thumbnailM} />
@@ -17,7 +17,7 @@ const AlbumCard = (props) => {
         </div>
         <div className="album-artists">
           <LinksByComma
-            data={props.artists? props.artists: []}
+            data={ props.artists ? props.artists : [] }
             titleEntry="name"
             pathEntry="alias"
             definePath={(alias) => `/artist/${alias}`}

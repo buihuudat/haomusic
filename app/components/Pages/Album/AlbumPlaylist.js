@@ -12,8 +12,8 @@ class AlbumPlaylist extends React.Component {
   }
 
   truncateInfo(info) {
-    if (info.length > 100) { return info.substring(0, 100) + '...'; }
-    else { return info; }
+    if (info.length > 100) { return `${info.substring(0, 100)}...`; }
+    return info;
   }
 
   render() {
@@ -34,7 +34,7 @@ class AlbumPlaylist extends React.Component {
             <div className="ap-artist">{playlist.artist}</div>
             <div className="ap-releaseY"><span>Release:</span> {playlist.release_year}</div>
             <div>
-              Genres: {playlist.genres.join(', ')}
+              Genres: { playlist.genres.join(', ') }
             </div>
           </div>
         </div>

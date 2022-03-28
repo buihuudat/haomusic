@@ -22,12 +22,12 @@ module.exports = {
     historyApiFallback: true,
     port: 10000,
     proxy: {
-      // '/api': 'http://localhost:3000',
-      '/api': {
-        'target': 'https://haomusicdb.herokuapp.com/',
-        'secure': false,
-        'changeOrigin': true,
-      },
+      '/api': 'http://localhost:3000',
+      // '/api': {
+      //   'target': 'https://haomusicdb.herokuapp.com/',
+      //   'secure': false,
+      //   'changeOrigin': true,
+      // },
     },
   },
   resolve: {

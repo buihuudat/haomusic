@@ -9,7 +9,6 @@ import "./index.sass";
 
 const Chart = (props) => {
   const { chart, user } = props;
-  console.log(user);
   if (!chart.items) {
     return null;
   }
@@ -49,7 +48,6 @@ const ChartFirstItem = ({
   user,
 }) => (
   <li className="chart-item">
-    {console.log(user)},
     <div className="chart-item-order order-first chart-item-thumb">
       <img src={thumbnail} />
     </div>
