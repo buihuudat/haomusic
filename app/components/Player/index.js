@@ -17,7 +17,9 @@ class Player extends React.PureComponent {
       progress: 0,
       isSeeking: false,
       isPlaying: false,
-      loop: false
+      loop: false,
+      countHeart: 0,
+      heartHidden: false,
     };
   }
 
@@ -222,6 +224,11 @@ class Player extends React.PureComponent {
     this.setState({ isSeeking: false });
   }
 
+  handleHeartClick() {
+    this.setState({ countHeart: this.state.countHeart + 1 });
+    this.setState({ heartHidden: true });
+  }
+
   render() {
     const { songData, queue } = this.props;
     const { id, title, link } = songData;
@@ -306,6 +313,31 @@ class Player extends React.PureComponent {
           </span>
         </div>
         <div className="player-other">
+          {/* button hearth */}
+          <button className="sc-ir player-btn" title="heart">
+            <span className="count-heart-number"
+              style={{
+                color: "white",
+                fontSize: "10px",
+                fontWeight: "bold",
+                position: "absolute",
+                marginLeft: '10px',
+                marginTop: '-10px'
+              }}
+            >
+              {this.state.countHeart == 0 ? '' : this.state.countHeart}
+            </span>
+            <i
+              className="ion-ios-heart-outline"
+              onClick={() => this.handleHeartClick()}
+              hidden={this.state.heartHidden}
+            ></i>
+            <i
+              className="ion-ios-heart"
+              onClick={() => this.handleHeartClick()}
+              hidden={!this.state.heartHidden}
+            ></i>
+          </button>
           <button className="sc-ir" title="Loop">
             <i
               className="ion-loop"

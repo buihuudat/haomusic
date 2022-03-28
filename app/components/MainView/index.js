@@ -122,7 +122,6 @@ const DefaultCards = ({ title, albums, artists, Card, chunkSize, items }) => (
 
 const Row = ({ chunk, Card }) => (
   <div className="view-cards-row">
-    {console.log(chunk)}
     {
       chunk.map((item, index) =>
         <Card key={`card-${index}`} {...item} />

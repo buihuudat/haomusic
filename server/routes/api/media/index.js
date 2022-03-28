@@ -29,7 +29,7 @@ router.get('/albums/default', getDefaultAlbums);
 
 router.get('/albums', getAlbums);
 
-router.get('/album_playlist', getAlbumPlaylist);
+router.get('/playlist/:title/:id', getAlbumPlaylist);
 
 router.get('/artists/default', getDefaultArtists);
 
