@@ -56,7 +56,7 @@ class ChartAdmin extends React.Component {
 			},
 			data: [{
 				type: "spline",
-				name: "Units Sold",
+				name: "Viewer",
 				showInLegend: true,
 				xValueFormatString: "MMM YYYY",
 				yValueFormatString: "#,##0 Units",
@@ -77,7 +77,7 @@ class ChartAdmin extends React.Component {
 			},
 			{
 				type: "spline",
-				name: "Profit",
+				name: "Premium",
 				axisYType: "secondary",
 				showInLegend: true,
 				xValueFormatString: "MMM YYYY",

@@ -18,6 +18,8 @@ class AdminPage extends React.Component {
     password: '',
     primary: '',
     phone: '',
+
+    passwordDefault: '',
   }
   
   componentDidMount() {
@@ -38,34 +40,60 @@ class AdminPage extends React.Component {
   
   handleOnChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  }    
 
   onSubmit(e) {
-    console.log(!this.state.password);
-    e.preventDefault();
-    // update user
-    axios.put(`/api/user/${this.state.username}/update`, {
-      fullname: this.state.fullname,
-      email: this.state.email,
-      username: this.state.username,
-      password: this.state.password,
-      phone: this.state.phone,
-      primary: this.state.primary,
-    })
-    .then((response) => {
-      Swal.fire({
-        title: 'Updated!',
-        icon: 'success',
-        text: `${this.state.fullname} has been updated`,
-        background: '#252c48',
-        color: '#fff',
-        confirmButtonText: 'Nice😋!!',
+    // check for password is changed
+    if (this.state.password != this.state.passwordDefault) {
+      e.preventDefault();
+      // update user
+      axios.put(`/api/user/${this.state.username}/update`, {
+        fullname: this.state.fullname,
+        email: this.state.email,
+        username: this.state.username,
+        password: this.state.password,
+        phone: this.state.phone,
+        primary: this.state.primary,
+      })
+      .then((response) => {
+        Swal.fire({
+          title: 'Updated!',
+          icon: 'success',
+          text: `${this.state.fullname} has been updated`,
+          background: '#252c48',
+          color: '#fff',
+          confirmButtonText: 'Nice😋!!',
+        });
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      // window.location.reload();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    } else {
+      e.preventDefault();
+      // update user
+      axios.put(`/api/user/${this.state.username}/update`, {
+        fullname: this.state.fullname,
+        email: this.state.email,
+        username: this.state.username,
+        phone: this.state.phone,
+        primary: this.state.primary,
+      })
+      .then((response) => {
+        Swal.fire({
+          title: 'Updated!',
+          icon: 'success',
+          text: `${this.state.fullname} has been updated`,
+          background: '#252c48',
+          color: '#fff',
+          confirmButtonText: 'Nice😋!!',
+        });
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
   }
 
   handleClickEdit(fullname, username, primary, email, phone, password) {
@@ -77,11 +105,12 @@ class AdminPage extends React.Component {
       email: email,
       phone: phone || 'no phone number',
       password: password,
+      passwordDefault: password,
     });
   }
 
   handleOnclickDel(fullname, username) {
-    if (this.props.user.fullname === fullname) {
+    if (this.props.user.fullname == fullname) {
       Swal.fire({
         title: 'Oops!',
         text: 'You cannot delete yourself',
@@ -90,6 +119,7 @@ class AdminPage extends React.Component {
         color: '#fff',
         confirmButtonText: 'Ok',
       });
+      return;
     } else if (username) {
       Swal.fire({
         title: 'Deleting user',
@@ -135,6 +165,7 @@ class AdminPage extends React.Component {
   
   render() {
     const { user } = this.state;
+    console.log(this.state.passwordDefault)
     return (
       <div className='admin container'>
         <div className='chart-admin'>
@@ -210,7 +241,7 @@ class AdminPage extends React.Component {
               <input
                 onChange={e => this.handleOnChange(e)}
                 name="fullname"
-                value={ this.state.fullname || this.state.use.fullname}
+                value={ this.state.fullname || this.state.user.fullname}
                 type="text"
                 className="form-control"
                 id="name"/>
@@ -220,7 +251,7 @@ class AdminPage extends React.Component {
               <input
                 onChange={e => this.handleOnChange(e)}
                 name="email"
-                value={ this.state.email || this.state.use.email}
+                value={ this.state.email || this.state.user.email}
                 type="email"
                 className="form-control"
                 id="email"/>
@@ -230,7 +261,7 @@ class AdminPage extends React.Component {
               <input
                 onChange={e => this.handleOnChange(e)}
                 name="phone"
-                value={ this.state.phone || this.state.use.phone }
+                value={ this.state.phone || this.state.user.phone }
                 type="text"
                 className="form-control"
                 id="phone"/>
@@ -243,7 +274,7 @@ class AdminPage extends React.Component {
                   e.target.value = '';
                 }}
                 name="password"
-                value={ this.state.password || this.state.use.password}
+                value={ this.state.password || this.state.user.password}
                 type='password'
                 className="form-control"
                 id="password"/>
@@ -253,7 +284,7 @@ class AdminPage extends React.Component {
               <select
                 onChange={e => this.handleOnChange(e)}
                 name="primary"
-                value={ this.state.primary || this.state.use.primary}
+                value={ this.state.primary || this.state.user.primary}
                 className="form-control"
                 id="primary">
                 <option className='option-form' value='0'>ADMIN</option>

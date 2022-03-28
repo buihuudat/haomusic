@@ -96,7 +96,7 @@ class Nav extends React.Component {
             {!authenticated ? (
 
               <div className='auth-btns'>
-                <img className='auth-btns-img' src='https://cdn2.iconfinder.com/data/icons/avatar-51/48/39-512.png'/>
+                <img className='auth-btns-img' src='https://cdn.dribbble.com/users/1242979/screenshots/7099165/music.gif'/>
                 <div className='auth-btns-content'>
                   <Link to='/login' className='auth-btns-login'>
                     Log In

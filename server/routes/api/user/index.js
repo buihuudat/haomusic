@@ -24,14 +24,24 @@ router.put('/:username/update', (req, res, next) => {
     }
 
     // update user
-    const user = User.findOneAndUpdate({ username: req.params.username }, {
-      fullname,
-      email,
-      password: hash,
-      phone,
-      primary,
-    }, { new: true });
-    return user;
+    if (password) {
+      const user = User.findOneAndUpdate({ username: req.params.username }, {
+        fullname,
+        email,
+        password: hash,
+        phone,
+        primary,
+      }, { new: true });
+      return user;
+    } else {
+      const user = User.findOneAndUpdate({ username: req.params.username }, {
+        fullname,
+        email,
+        phone,
+        primary,
+      }, { new: true });
+      return user;
+    }
   })
   .then(user => res.json(user))
   .catch(err => next(err));
