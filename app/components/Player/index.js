@@ -18,6 +18,7 @@ class Player extends React.PureComponent {
       isSeeking: false,
       isPlaying: false,
       loop: false,
+      
       countHeart: 0,
       heartHidden: false,
     };
@@ -66,7 +67,15 @@ class Player extends React.PureComponent {
     clearRequestInterval(this.timer);
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState, prevDrops) {
+
+    // if (this.props.songData.id !== prevDrops.songData.id) {
+    //   this.setState({
+    //     countHeart: 0,
+    //     heartHidden: false,
+    //   })
+    // }
+
     if (nextState.isPlaying !== this.state.isPlaying) {
       if (nextState.isPlaying) {
         this.audio.play();
@@ -232,7 +241,7 @@ class Player extends React.PureComponent {
   render() {
     const { songData, queue } = this.props;
     const { id, title, link } = songData;
-    const alias = extractAlias(link)
+    const alias = extractAlias(link);
 
     return (
       <div className="player">
